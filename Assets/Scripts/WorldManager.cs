@@ -17,6 +17,11 @@ public class WorldManager : MonoBehaviour {
 			return objects;
 		}
 	}
+	public BoundingBoxTree BbTree {
+		get {
+			return bbTree;
+		}
+	}
 
 	// Use this for initialization
 	void Start () {
@@ -28,12 +33,16 @@ public class WorldManager : MonoBehaviour {
 		foreach( CubeGraphics obj in staticObjects ){
 			objects.Add( obj.StaticObj );
 		}
-
-		bbTree = new BoundingBoxTree( objects, BoundingBoxTree.interieurOrderAxe.axeX );
 	}
-	
-	// Update is called once per frame
-	void Update () {
-		
+
+	void FixedUpdate () {
+		bbTree = new BoundingBoxTree( objects, BoundingBoxTree.interieurOrderAxe.axeX );
+
+		foreach( PhysicsObjectGraphics obj in physicsObjects ){
+			obj.ApplyPhysics();
+		}
+		foreach( CubeGraphics obj in staticObjects ){
+			obj.ApplyPhysics();
+		}
 	}
 }

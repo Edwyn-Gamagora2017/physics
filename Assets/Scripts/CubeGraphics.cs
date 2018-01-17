@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CubeGraphics : MonoBehaviour {
+public class CubeGraphics : ObjectGraphics {
 
 	CubeStaticObject staticObj;
 
@@ -21,7 +21,7 @@ public class CubeGraphics : MonoBehaviour {
 		this.transform.position = staticObj.getStartPosition();
 	}
 
-	void FixedUpdate () {
+	public override void ApplyPhysics () {
 
 	}
 }

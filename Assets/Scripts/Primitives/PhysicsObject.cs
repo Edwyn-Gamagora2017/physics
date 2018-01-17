@@ -25,7 +25,7 @@ public class PhysicsObject : AbstractObject {
 		this.boundingBox = boundingBox;
 	}
 
-	public void evaluate( List<Vector3> forces, float deltaTSeconds, List<AbstractObject> world ){
+	public void evaluate( List<Vector3> forces, float deltaTSeconds, WorldManager world ){
 		// calculate Acceleration
 		Vector3 newAcceleration = new Vector3(0,0,0);
 		foreach( Vector3 force in forces ){
@@ -40,7 +40,7 @@ public class PhysicsObject : AbstractObject {
 		// Calculate Collision
 		bool collisionTrigger = false;
 		CubeStaticObject futureBoundingBox = new CubeStaticObject( newPosition, this.boundingBox.Width, this.boundingBox.Height, this.boundingBox.Depth );
-		foreach( AbstractObject obj in world ){
+		/*foreach( AbstractObject obj in world.Objects ){
 			// Same object
 			if( obj != this ){
 				bool col = futureBoundingBox.collision( obj.getBoundingBox() );
@@ -48,7 +48,10 @@ public class PhysicsObject : AbstractObject {
 					collisionTrigger = true;
 				}
 			}
-		}
+		}*/
+		AbstractObject collisionObj = world.BbTree.collision( futureBoundingBox, this );
+		collisionTrigger = collisionObj != null;
+
 		if( !collisionTrigger ){
 			// Update info : new one
 			this.speed = newSpeed;

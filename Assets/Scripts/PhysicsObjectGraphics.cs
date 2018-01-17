@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PhysicsObjectGraphics : MonoBehaviour {
+public class PhysicsObjectGraphics : ObjectGraphics {
 
 	public float mass = 1;
 
@@ -35,12 +35,12 @@ public class PhysicsObjectGraphics : MonoBehaviour {
 	void Start () {
 	}
 
-	void FixedUpdate () {
+	public override void ApplyPhysics () {
 		forces.Clear();
 		forces.Add( PhysicsObject.gravityAcc*mass );
 
 		if( world != null ){
-			physicsObj.evaluate( forces, Time.deltaTime, world.Objects );
+			physicsObj.evaluate( forces, Time.deltaTime, world );
 		}
 
 		this.transform.position = physicsObj.getPosition();

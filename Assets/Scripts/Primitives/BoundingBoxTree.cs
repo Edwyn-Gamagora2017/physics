@@ -62,42 +62,33 @@ public class BoundingBoxTree : CubeStaticObject{
 	}
 
 	// Verify the collision with the box and its children ( if previousIntersection is farest than the intersection with the box )
-	public bool collision( AbstractObject obj ){
-		/*// Intersection to external box Cube
-		std::experimental::optional<intersection_data> intersectBox = this->intersectionBox( rayon );
+	public AbstractObject collision( CubeStaticObject box, AbstractObject obj ){
+		// Intersection to external box Cube
+		bool collideBox = this.getBoundingBox().collision( box );
 		// Calculate internal intersection if the external one if smaller than the previousIntersection
-		if( intersectBox && ( !previousIntersection || (*intersectBox).getT() < (*previousIntersection).getT() ) )
+		if( collideBox )
 		{
 			// If the box has only one child, check its intersection
-			if( this->interieur != NULL )
+			if( this.inside != null )
 			{
-				std::experimental::optional<intersection_data> interieurIntersection = this->interieur->intersection( rayon );
-				if( interieurIntersection && ( !previousIntersection || (*interieurIntersection).getT() < (*previousIntersection).getT() ) )
-				{
-					return interieurIntersection;
+				// This box is the same as inside
+				if( obj != this.inside ){
+					return this.inside;
 				}
 			}
 			// If the box has boxes as children, check their intersection
 			else
 			{
-				std::experimental::optional<intersection_data> intersection_minimun = previousIntersection;//( vec3(), vec3(), 0, NULL );
-
-				for (int i = 0; i < this->boxes.size(); i++)
+				for (int i = 0; i < this.boxes.Count; i++)
 				{
-					std::experimental::optional<intersection_data> intersectChild = this->boxes[i].intersection( rayon, intersection_minimun );
-
-					if( intersectChild && ( !intersection_minimun || (*intersectChild).getT() < (*intersection_minimun).getT() ) ){
-						intersection_minimun = intersectChild;
+					AbstractObject collObj = this.boxes[i].collision( box, obj );
+					if( collObj != null ){
+						return collObj;
 					}
-				}
-				if( !previousIntersection || (*intersection_minimun).getT() < (*previousIntersection).getT() ){
-					return intersection_minimun;
 				}
 			}
 		}
-
-		return {};*/
-		return false;
+		return null;
 	}
 
 	protected AbstractObject getInside(){
