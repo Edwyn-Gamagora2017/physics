@@ -866,6 +866,8 @@ MonoBehaviour:
   - {fileID: 1980054565}
   staticObjects:
   - {fileID: 880870715}
+  PhysicsObjPrefab: {fileID: 998742136}
+  createObjects: 10
 --- !u!4 &1987843311
 Transform:
   m_ObjectHideFlags: 0

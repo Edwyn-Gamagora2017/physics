@@ -64,6 +64,9 @@ public class PhysicsObject : AbstractObject {
 		}
 	}
 
+	public void setPosition(Vector3 position){
+		this.position = position;
+	}
 	public Vector3 getPosition(){
 		return this.position;
 	}
