@@ -14,4 +14,5 @@ public abstract class AbstractObject {
 		return this.startPosition;
 	}
 
+	public abstract CubeStaticObject getBoundingBox();
 }

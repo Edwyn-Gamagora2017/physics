@@ -12,28 +12,52 @@ public class PhysicsObject : AbstractObject {
 
 	float mass;
 
+	CubeStaticObject boundingBox;
+
 	public static Vector3 gravityAcc = new Vector3(0f,-9.8f,0f);
 
-	public PhysicsObject( float mass, Vector3 startPosition )
+	public PhysicsObject( float mass, Vector3 startPosition, CubeStaticObject boundingBox )
 	: base( startPosition ){
 		this.mass = mass;
 
 		this.position = startPosition;
 		this.speed = new Vector3(0,0,0);
 		this.acceleration = new Vector3(0,0,0);
+
+		this.boundingBox = boundingBox;
 	}
 
-	public void evaluate( List<Vector3> forces, float deltaTSeconds ){
+	public void evaluate( List<Vector3> forces, float deltaTSeconds, List<AbstractObject> world ){
 		// calculate Acceleration
-		this.acceleration = new Vector3(0,0,0);
+		Vector3 newAcceleration = new Vector3(0,0,0);
 		foreach( Vector3 force in forces ){
-			this.acceleration += force;
+			newAcceleration += force;
 		}
-		this.acceleration /= mass;
+		newAcceleration /= mass;
 		// calculate Speed
-		this.speed += this.acceleration*deltaTSeconds;
+		Vector3 newSpeed = this.speed + newAcceleration*deltaTSeconds;
 		// calculate Position
-		this.position += this.speed*deltaTSeconds;
+		Vector3 newPosition = this.position + newSpeed*deltaTSeconds;
+
+		// Calculate Collision
+		bool collisionTrigger = false;
+		CubeStaticObject futureBoundingBox = new CubeStaticObject( newPosition, this.boundingBox.Width, this.boundingBox.Height, this.boundingBox.Depth );
+		foreach( AbstractObject obj in world ){
+			// Same object
+			if( obj != this ){
+				bool col = futureBoundingBox.collision( obj.getBoundingBox() );
+				if( col ){
+					collisionTrigger = true;
+				}
+			}
+		}
+		if( !collisionTrigger ){
+			// Update info
+			this.acceleration = newAcceleration;
+			this.speed = newSpeed;
+			this.position = newPosition;
+			this.boundingBox.Position = newPosition;
+		}
 	}
 
 	public Vector3 getPosition(){
@@ -45,4 +69,13 @@ public class PhysicsObject : AbstractObject {
 	public Vector3 getAcceleration(){
 		return this.acceleration;
 	}
+
+	#region implemented abstract members of AbstractObject
+
+	public override CubeStaticObject getBoundingBox ()
+	{
+		return this.boundingBox;
+	}
+
+	#endregion
 }
