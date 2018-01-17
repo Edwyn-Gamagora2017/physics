@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class PhysicsObjectGraphics : MonoBehaviour {
 
+	public float mass = 1;
+
 	PhysicsObject physicsObj;
 	List<Vector3> forces;
 	WorldManager world;
@@ -25,7 +27,7 @@ public class PhysicsObjectGraphics : MonoBehaviour {
 	}
 
 	void Awake(){
-		physicsObj = new PhysicsObject( 1, this.transform.position, generateBoundingBox() );
+		physicsObj = new PhysicsObject( mass, this.transform.position, generateBoundingBox() );
 		forces = new List<Vector3>();
 	}
 
@@ -35,7 +37,7 @@ public class PhysicsObjectGraphics : MonoBehaviour {
 
 	void FixedUpdate () {
 		forces.Clear();
-		forces.Add( PhysicsObject.gravityAcc );
+		forces.Add( PhysicsObject.gravityAcc*mass );
 
 		if( world != null ){
 			physicsObj.evaluate( forces, Time.deltaTime, world.Objects );

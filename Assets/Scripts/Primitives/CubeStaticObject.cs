@@ -18,17 +18,26 @@ public class CubeStaticObject : AbstractObject {
 		get {
 			return width;
 		}
+		set{
+			width = value;
+		}
 	}
 
 	public float Height {
 		get {
 			return height;
 		}
+		set{
+			height = value;
+		}
 	}
 
 	public float Depth {
 		get {
 			return depth;
+		}
+		set{
+			depth = value;
 		}
 	}
 
@@ -46,6 +55,12 @@ public class CubeStaticObject : AbstractObject {
 	}
 
 	public bool isPointInside( Vector3 point ){
+		Vector3 thisMin = this.minValues();
+		Vector3 thisMax = this.maxValues();
+
+		return point.x >= thisMin.x && point.x <= thisMax.x && point.y >= thisMin.y && point.y <= thisMax.y && point.z >= thisMin.z && point.z <= thisMax.z;
+	}
+	public bool minPointDistance( Vector3 point ){
 		Vector3 thisMin = this.minValues();
 		Vector3 thisMax = this.maxValues();
 

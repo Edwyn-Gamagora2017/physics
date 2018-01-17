@@ -10,6 +10,7 @@ public class WorldManager : MonoBehaviour {
 	CubeGraphics[] staticObjects;
 
 	List<AbstractObject> objects;
+	BoundingBoxTree bbTree;
 
 	public List<AbstractObject> Objects {
 		get {
@@ -27,6 +28,8 @@ public class WorldManager : MonoBehaviour {
 		foreach( CubeGraphics obj in staticObjects ){
 			objects.Add( obj.StaticObj );
 		}
+
+		bbTree = new BoundingBoxTree( objects, BoundingBoxTree.interieurOrderAxe.axeX );
 	}
 	
 	// Update is called once per frame

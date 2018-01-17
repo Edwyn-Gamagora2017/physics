@@ -3,9 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class PhysicsObject : AbstractObject {
-
-	Vector3 startPosition;
-
+	
 	Vector3 position;		// m
 	Vector3 speed;			// m/s
 	Vector3 acceleration;	// m/s2
@@ -52,11 +50,14 @@ public class PhysicsObject : AbstractObject {
 			}
 		}
 		if( !collisionTrigger ){
-			// Update info
-			this.acceleration = newAcceleration;
+			// Update info : new one
 			this.speed = newSpeed;
 			this.position = newPosition;
 			this.boundingBox.Position = newPosition;
+		}
+		else{
+			// Update info : 0
+			this.speed = new Vector3(0,0,0);
 		}
 	}
 
